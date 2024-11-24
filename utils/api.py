@@ -1,5 +1,4 @@
 import aiohttp
-import base64
 from urllib.parse import urlencode
 
 from utils.log import Logger

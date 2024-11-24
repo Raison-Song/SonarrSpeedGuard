@@ -9,10 +9,11 @@ from utils.log import Logger
 async def handler():
     logger = Logger.get_logger()
     logger.info("Starting download monitor handler")
-    api = utils.api.SonarrAPI(utils.config.config.host, utils.config.config.apikey)
 
     while True:
         try:
+            api = utils.api.SonarrAPI(utils.config.config.host, utils.config.config.apikey)
+            
             logger.debug("Fetching queue data from API")
             data = await api.get('v3/queue')
 

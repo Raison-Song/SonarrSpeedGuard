@@ -20,7 +20,7 @@ def main():
     background_thread = threading.Thread(target=run_async_handler, daemon=True)
     background_thread.start()
 
-    app.run(debug=True)
+    app.run(host='0.0.0.0',debug=True)
 
 
 app = Flask(__name__)

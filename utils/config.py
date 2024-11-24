@@ -46,23 +46,31 @@ def load_config():
 
     except FileNotFoundError as e:
         print(e)
-        config = Config("", "", 8989, False,  5)
+        config = Config.default()
 
     except json.JSONDecodeError as e:
         print(f"Error decoding JSON: {e}")
-        config = Config("", "", 8989, False, 5)
+        config = Config.default()
 
     except TypeError as e:
         print(f"Error loading configuration: {e}")
-        config = Config("", "", 8989, False, 5)
+        config = Config.default()
 
 
 def update_config(new_config):
     try:
-        # 如果配置文件不存在，创建一个空的 JSON 文件
+        #  检查文件夹是否存在，如果不存在则创建
+        config_dir = os.path.dirname(config_file_path)
+        if not os.path.exists(config_dir):
+            os.makedirs(config_dir)
+        
+        # 检查配置文件是否存在，如果不存在则创建
         if not os.path.exists(config_file_path):
-            with open(config_file_path, 'w') as f:
-                json.dump({}, f)
+            try:
+                with open(config_file_path, 'w') as f:
+                    json.dump({}, f)
+            except IOError as e:
+                print(f"Error creating config file: {e}")
 
         with open(config_file_path, 'r+') as f:
             portalocker.lock(f, portalocker.LOCK_EX)  # 加锁
